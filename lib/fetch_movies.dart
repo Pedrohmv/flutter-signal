@@ -12,6 +12,7 @@ class FetchMovies {
   }
 
   void fetch() async {
+    onChange(LoadingState());
     final movies = await repository.fetchMovies();
     onChange(SuccessState(movies.results ?? []));
   }

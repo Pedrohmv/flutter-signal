@@ -24,11 +24,15 @@ class Teste extends SignalWidget {
   @override
   Widget build(BuildContext context) {
     final (count, setCount) = (context as SignalElement).createSignal(0);
+    final (count2, setCount2) = (context as SignalElement).createSignal(10);
     context.createEffect(() {
       print('one time only effect');
     });
     context.createEffect(() {
       print('count changed: ${count()}');
+    });
+    context.createEffect(() {
+      print('count or count2 changed: count:${count()}/count2:${count2()}');
     });
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,6 +47,19 @@ class Teste extends SignalWidget {
         ElevatedButton(
           onPressed: () {
             setCount(count() + 1);
+          },
+          child: const Text('+1'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            setCount2(count2() - 1);
+          },
+          child: const Text('-1'),
+        ),
+        Text('${count2()}'),
+        ElevatedButton(
+          onPressed: () {
+            setCount2(count2() + 1);
           },
           child: const Text('+1'),
         ),

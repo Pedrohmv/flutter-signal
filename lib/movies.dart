@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:signal/di.dart';
 import 'package:signal/fetch_movies.dart';
 import 'package:signal/movie_card.dart';
-import 'package:signal/movie_model.dart';
 import 'package:signal/movie_state.dart';
 import 'package:signal/signal.dart';
 import 'package:signal/signal_widget.dart';
@@ -21,6 +20,7 @@ class Movies extends StatelessWidget {
       body: SignalBuilder(builder: (ctx) {
         Widget render(MovieState state) {
           return switch (state) {
+            EmptyState() => const Text('Empty'),
             LoadingState() => const Text('Loading'),
             SuccessState success => GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -38,7 +38,7 @@ class Movies extends StatelessWidget {
         }
 
         final (movies, setMovies) =
-            (ctx as SignalElement).createSignal<MovieState>(LoadingState());
+            (ctx as SignalElement).createSignal<MovieState>(EmptyState());
         ctx.createEffect(() {
           fetchMovies.bindChanges((movies) {
             setMovies(movies);
